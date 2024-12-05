@@ -1,0 +1,57 @@
+一、如何制作一份自己的ARM平台的驱动
+    大致分为三个步骤：分别是1、2、4
+1、在drivers/下创建Demo目录
+2、在Demo目录下创建3个文件：a、驱动源文件
+                          b、Makefile文件
+                          c、Kconfig文件
+3、Demo目录下文件内容示例：
+    1、Makefile文件：
+# 指定要编译的对象文件
+                     
+obj-$(CONFIG_DEMO_DRIVER) += demo_driver.o
+
+# 编译内核模块
+all:
+	$(MAKE) -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
+
+# 清理编译生成的文件
+clean:
+	$(MAKE) -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
+#注意：二级命令下，不可使用空格，只能使用tab制表符
+    
+    2、Kconfig文件：
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Demo Driver configuration
+#
+
+menu "Demo Driver Support"
+
+config DEMO_DRIVER
+    tristate "Demo character driver support"
+    default m
+    help
+      Enable support for the demo character device driver. If you say Y or M,
+      the driver will be compiled into the kernel or built as a module.
+      If built as a module, the module will be called demo_driver.ko.
+
+    # 如果需要依赖其他子系统，可以使用 depends on
+    # depends on ###
+    #depends on ###
+
+config DEMO_DEBUG
+    bool "Enable debug messages"
+    depends on DEMO_DRIVER
+    help
+      Say Y here if you want the demo driver to print debug messages.
+      This is helpful for driver development and troubleshooting.
+
+endmenu
+
+4、drivers目录需要修改两处文件：
+                                1、Kconfig文件
+                                2、Makefile文件
+1、Kconfig文件:
+    新增：source "drivers/Demo/Kconfig"
+2、Makefile文件：
+    新增：obj-$(CONFIG_DEMO_DRIVER) += Demo/

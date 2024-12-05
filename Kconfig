@@ -1,0 +1,83 @@
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Demo Driver configuration
+#
+
+menu "Demo Driver Support"
+
+config DEMO_DRIVER
+    tristate "Demo character driver support"
+    default m
+    help
+      Enable support for the demo character device driver. If you say Y or M,
+      the driver will be compiled into the kernel or built as a module.
+      If built as a module, the module will be called demo_driver.ko.
+
+    # 如果需要依赖其他子系统，可以使用 depends on
+    # depends on ###
+    #depends on ###
+
+config DEMO_DEBUG
+    bool "Enable debug messages"
+    depends on DEMO_DRIVER
+    help
+      Say Y here if you want the demo driver to print debug messages.
+      This is helpful for driver development and troubleshooting.
+
+endmenu
+menu "LED Driver Support"
+
+config LED_DRIVER
+    tristate "LED character driver support"
+    default m
+    help
+      Enable support for the LED character device driver. If you say Y or M,
+      the driver will be compiled into the kernel or built as a module.
+      If built as a module, the module will be called led_driver.ko.
+
+config LED_DEBUG
+    bool "Enable debug messages for LED driver"
+    depends on LED_DRIVER
+    help
+      Say Y here if you want the LED driver to print debug messages.
+      This is helpful for driver development and troubleshooting.
+
+endmenu
+
+menu "GPIO Driver Support"
+
+config FC_GPIO_DRIVER
+    tristate "flow_controller GPIO character driver support"
+    default m
+    help
+      Enable support for the GPIO character device driver. If you say Y or M,
+      the driver will be compiled into the kernel or built as a module.
+      If built as a module, the module will be called led_driver.ko.
+
+config FC_GPIO_DEBUG
+    bool "Enable debug messages for LED driver"
+    depends on FC_GPIO_DRIVER
+    help
+      Say Y here if you want the LED driver to print debug messages.
+      This is helpful for driver development and troubleshooting.
+
+endmenu
+
+menu "GP8202AS Driver Support"
+
+config FC_GP8202AS_DRIVER
+    tristate "flow_controller GP8202AS character driver support"
+    default m
+    help
+      Enable support for the GP8202AS character device driver. If you say Y or M,
+      the driver will be compiled into the kernel or built as a module.
+      If built as a module, the module will be called gp8202as_driver.ko.
+
+config FC_GP8202AS_DEBUG
+    bool "Enable debug messages for gp8202as driver"
+    depends on FC_GP8202AS_DRIVER
+    help
+      Say Y here if you want the gp8202as driver to print debug messages.
+      This is helpful for driver development and troubleshooting.
+
+endmenu
